@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calcular notas</title>
+    <link rel="stylesheet" href="assets/css/main.css">
+    <link rel="stylesheet" href="assets/css/bootstrap.min.css">
+    <link rel="stylesheet" href="assets/css/sweetalert2.min.css">
+</head>
+
+<body class="bg-light">
+    <nav class="navbar navbar-expand-lg bg-body-tertiary">
+        <div class="container-fluid">
+            <a class="navbar-brand" href="#">Notas</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse"
+                data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
+                aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li class="nav-item">
+                        <a class="nav-link active" aria-current="page" href="#">Inicio</a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown"
+                            aria-expanded="false">
+                            Agregar
+                        </a>
+                        <ul class="dropdown-menu">
+                            <li>
+                                <a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#exampleModal" href="#">
+                                    Item
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+    <div class="container">
+        <table class="table table-striped table-responsive" id="table_id">
+            <thead>
+                <tr>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                </tr>
+            </tbody>
+        </table>
+        <div class="row">
+            <div class="col">
+                <!-- <a class="btn btn-primary">Calcular nota minima</a> -->
+            </div>
+        </div>
+    </div>
+    <div class="container text-center">
+        <!-- <span>El promedio es :</span>
+        <h1 id="resp">0</h1> -->
+    </div>
+    <!-- <a class="btn btn-primary" href="#" role="button" onclick="addfila()">Button</a> -->
+    <!-- modal -->
+    <div class="modal fade" data-bs-backdrop="static" id="exampleModal" tabindex="-1"
+        aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="exampleModalLabel">Agregar nuevo item</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+
+                    <div class="mb-3">
+                        <label for="item-name" class="col-form-label">Nombre de item:</label>
+                        <input type="text" value="nombre item" class="form-control" id="item-name">
+                    </div>
+                    <div class="mb-3">
+                        <label for="porcentaje" class="col-form-label">Porcentaje:</label>
+                        <input type="number" value="0" class="form-control" id="porcentaje">
+                    </div>
+                    <table borderer="2"  class="table table-striped table-responsive" id="table_modal">
+                        <tbody>
+                            <tr>
+                                <td class="text-center mb-1" colspan="2">
+                                    <!-- adicionar notas de item <br> -->
+                                    <a class="btn btn-primary disabled" id="btn-add-fila" onclick="agregar_fila_nota()">Agregar nota</a>
+                                </td>
+                            </tr>
+
+                        </tbody>
+                    </table>
+                    <hr>
+                    <p>
+                        La nota calculada es : <h3 id="nota_cal" class="text-center" >0</h3>
+                    </p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">cerrar</button>
+                    <button type="button" class="btn btn-primary" data-bs-dismiss="modal" onclick="adicionar_item()">crear
+                        item</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="assets/js/bootstrap.bundle.min.js"></script>
+    <script src="assets/js/sweetalert2.all.min.js"></script>
+    <script src="assets/js/main.js"></script>
+</body>
+
+</html>
