@@ -21,75 +21,6 @@ const porcentaje_actual = () => {
     }, 0);
 }
 
-// //escuchando el evento click del boton
-// boton_add_item.addEventListener('click', function () {
-//     if (Number(porcentaje_actual()) + Number(porcentaje_item.value) > 100 || Number(porcentaje_item.value) == 0) {
-//         Swal.fire({
-//             title: 'Error',
-//             text: 'El porcentaje no debe pasar de 100 y no debe ser 0',
-//             icon: 'error',
-//             confirmButtonText: 'reintentar'
-//         })
-//         return
-//     } else {
-//         additem(nombre_item.value, porcentaje_item.value);
-//         items.push({
-//             nombre: nombre_item.value,
-//             porcentaje: porcentaje.value
-//         });
-//         console.log(items);
-//     }
-//     //limpiando los campos de nombre y porcentaje
-//     nombre_item.value = '';
-//     porcentaje_item.value = 100 - Number(porcentaje_actual());
-// });
-
-
-// //funcion para adicionar columna
-// function additem(nombreColumna, porcentaje) {
-//     const tabla = document.querySelector('#table_id');
-//     const nuevaCabecera = document.createElement('th');
-//     nuevaCabecera.textContent = `${nombreColumna} (${porcentaje}%)`;
-//     const filaEncabezado = tabla.tHead.rows[0];
-//     filaEncabezado.appendChild(nuevaCabecera);
-
-//     const nuevaCelda = document.createElement('td');
-//     nuevaCelda.appendChild(createInput());
-//     const filaBody = tabla.tBodies[0];
-//     filaBody.appendChild(nuevaCelda);
-// }
-
-
-
-// const createInput = () => {
-//     //creacion de un elemento input 
-//     const input = document.createElement('input');
-//     input.setAttribute('type', 'number');
-//     input.setAttribute('name', 'input_items');
-//     input.setAttribute('max', '100');
-//     input.classList.add('form-control');
-//     input.value = 0;
-//     input.addEventListener('keyup', calcular_Promedio);
-//     return input
-// }
-
-// const calcular_Promedio = (event) => {
-//     const respuesta = document.querySelector('#resp');
-//     const lista_input = document.getElementsByName('input_items');
-//     let total_suma = 0;
-//     lista_input.forEach(input => {
-//         total_suma += Number(input.value);
-//     });
-
-//     console.log('se presiono el boton', total_suma);
-//     respuesta.textContent = total_suma;
-
-//     // const valor = event.target.value;
-//     // respuesta.textContent = valor;
-//     // console.log('entro a la funcion y se ejecuto', valor);
-// }
-
-
 
 ////////////////////////////////////////////////////////////////////
 ////////////FUNCIONES PARA AGREGAR NOTAS DE UN ITEM ////////////////
@@ -108,16 +39,34 @@ const createInput = (valor) => {
     return input;
 }
 
-const createButton = (nombre, idfila) => {
-    const btn = document.createElement('button');
-    btn.classList.add('btn', 'btn-danger', 'btn-sm');
-    btn.textContent = nombre;
-    btn.addEventListener('click', () => {
-        const fila = document.querySelector(`#${idfila}`);
-        fila.remove();
-        calcular_notas_item();
-    });
-    return btn;
+// const createButton = (nombre, idfila) => {
+//     const btn = document.createElement('button');
+//     btn.classList.add('btn', 'btn-danger', 'btn-sm');
+//     btn.textContent = nombre;
+//     btn.addEventListener('click', () => {
+//         const fila = document.querySelector(`#${idfila}`);
+//         fila.remove();
+//         calcular_notas_item();
+//     });
+//     return btn;
+// }
+
+const eliminar_fila = () => {
+    const tabla_modal = document.querySelector('#table_modal');
+    const cantidadFilas = tabla_modal.rows.length;
+    if (cantidadFilas == 0) {
+        Swal.fire({
+            title: 'Error',
+            text: 'No existen notas para eliminar',
+            icon: 'error',
+            confirmButtonText: 'ok'
+        });
+
+        return
+    }
+    const fila = document.querySelector(`#id-${cantidadFilas - 1}`);
+    fila.remove();
+    calcular_notas_item();
 }
 
 
@@ -127,11 +76,8 @@ const agregar_fila_nota = () => {
     const tr = document.createElement('tr');
     tr.setAttribute('id', `id-${tr_Total.length}`);
     const td = document.createElement('td');
-    const td_btn = document.createElement('td');
     td.appendChild(createInput(0));
-    td_btn.appendChild(createButton('Eliminar', `id-${tr_Total.length}`));
     tr.appendChild(td);
-    tr.appendChild(td_btn);
     tabla_modal.appendChild(tr);
     calcular_notas_item();
 }
@@ -146,13 +92,11 @@ const calcular_notas_item = () => {
 
     let suma = 0;
     notas.forEach(nota => {
-        console.log(nota.value);
         suma += Number(nota.value);
     });
 
     nota_calculada.textContent = ((suma / notas.length) * Number(porcentaje_item.value)) / 100;
-    console.log(((suma / notas.length) * Number(porcentaje_item.value)) / 100, ' esta es la suma de las notas');
-
+    // console.log(((suma / notas.length) * Number(porcentaje_item.value)) / 100, ' esta es la suma de las notas');
     return ((suma / notas.length) * Number(porcentaje_item.value)) / 100;
 }
 
@@ -172,7 +116,7 @@ const adicionar_item = () => {
     if (Number(porcentaje_actual()) + Number(porcentaje_item.value) > 100) {
         Swal.fire({
             title: 'Error',
-            text: `El porcentaje ingresado debe ser menor o igual a ${100-porcentaje_actual()}`,
+            text: `El porcentaje ingresado debe ser menor o igual a ${100 - porcentaje_actual()}`,
             icon: 'error',
             confirmButtonText: 'ok'
         });
@@ -186,54 +130,73 @@ const adicionar_item = () => {
     filaEncabezado.appendChild(thead);
 
     const td = document.createElement('td');
-    td.appendChild(createInput(calcular_notas_item()));
+    const h3 = document.createElement('h3');
+    h3.textContent = calcular_notas_item();
+    h3.setAttribute('name', 'item');
+    td.appendChild(h3);
     const tr = tabla.tBodies[0];
     tr.appendChild(td);
 
-    porcentaje_item.value=0;
     items.push({
         nombre: nombre_item.value,
         porcentaje: porcentaje.value
     });
-    console.log(items);
-
+    tabla.appendChild(tr);
+    if (Number(porcentaje_actual()) == 100) {
+        const bnt_pro = document.querySelector('#btn-pro');
+        bnt_pro.classList.remove('d-none');
+    }
+    reset();
 }
 
 
+const reset = () => {
+    porcentaje_item.value = 0;
+    const tabla_modal = document.querySelector('#table_modal');
+    const cantidadFilas = tabla_modal.rows.length;
+    for (let i = 0; i < cantidadFilas; i++) {
+        let tr = document.querySelector(`#id-${i}`);
+        tr.remove();
+    }
+    calcular_notas_item();
+    const btn_add = document.querySelector('#btn-add-fila');
+    btn_add.classList.add('disabled');
+}
 
 
+const calcular_items = () => {
+    const h3_array = document.getElementsByName('item');
+    let suma = 0;
+    h3_array.forEach(e => {
+        suma += Number(e.textContent);
+    });
 
+    const alert = document.querySelector('#alert-html');
+    const mensaje = document.querySelector('#mensaje');
+    if (suma >= 80) {
+        Swal.fire({
+            title: 'Felicidades!!!',
+            text: 'Te eximiste en la materia',
+            icon: 'success',
+            confirmButtonText: 'ok'
+        });
+    } else if (suma >= 51) {
+        mensaje.textContent=`Felicidades Entraste a 1ra mesa con ${Math.round(suma)} puntos`;
+        alert.classList.remove('d-none');
+        alert.appendChild(mensaje);
+    } else if (suma >= 40) {
+        mensaje.textContent=`Entraste a 2da mesa con ${Math.round(suma)} puntos`;
+        alert.classList.remove('d-none');
+        alert.classList.remove('alert-primary');
+        alert.classList.add('alert-warning');
+        alert.appendChild(mensaje);
+    } else if (suma <= 39) {
+        mensaje.textContent=`Has Reprobado la materia con ${Math.round(suma)} puntos`;
+        alert.classList.remove('d-none');
+        alert.classList.remove('alert-primary');
+        alert.classList.add('alert-danger');
+        alert.appendChild(mensaje);
+    }
 
-
-
-
-
-
-
-
-
-
-
-
-
-// function addfila() {
-//     const tabla = document.querySelector('#table_id');
-//     const nuevaFila = document.createElement('tr');
-//     items.forEach((e, index) => {
-//         const nuevaCelda1 = document.createElement('td');
-//         nuevaCelda1.textContent = `Dato ${index}`;
-//         nuevaFila.appendChild(nuevaCelda1);
-//     })
-//     tabla.appendChild(nuevaFila);
-
-// }
-
-    // const filas = tabla.getElementsByTagName('tr');
-
-    // for (let i = 0; i < filas.length; i++) {
-    //     const nuevaCelda = document.createElement('td');
-    //     nuevaCelda.textContent = 'Nuevo Valor';
-    //     filas[i].appendChild(nuevaCelda);
-    // }
-
+}
 
