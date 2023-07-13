@@ -39,17 +39,6 @@ const createInput = (valor) => {
     return input;
 }
 
-// const createButton = (nombre, idfila) => {
-//     const btn = document.createElement('button');
-//     btn.classList.add('btn', 'btn-danger', 'btn-sm');
-//     btn.textContent = nombre;
-//     btn.addEventListener('click', () => {
-//         const fila = document.querySelector(`#${idfila}`);
-//         fila.remove();
-//         calcular_notas_item();
-//     });
-//     return btn;
-// }
 
 const eliminar_fila = () => {
     const tabla_modal = document.querySelector('#table_modal');
