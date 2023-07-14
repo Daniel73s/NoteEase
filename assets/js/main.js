@@ -140,7 +140,7 @@ const adicionar_item = () => {
 
 
 const reset = () => {
-    porcentaje_item.value = 0;
+    porcentaje_item.value = 100 - porcentaje_actual();
     const tabla_modal = document.querySelector('#table_modal');
     const cantidadFilas = tabla_modal.rows.length;
     for (let i = 0; i < cantidadFilas; i++) {
@@ -148,8 +148,6 @@ const reset = () => {
         tr.remove();
     }
     calcular_notas_item();
-    const btn_add = document.querySelector('#btn-add-fila');
-    btn_add.classList.add('disabled');
 }
 
 
@@ -162,25 +160,25 @@ const calcular_items = () => {
 
     const alert = document.querySelector('#alert-html');
     const mensaje = document.querySelector('#mensaje');
-    if (suma >= 80) {
+    if (suma >79) {
         Swal.fire({
             title: 'Felicidades!!!',
-            text: 'Te eximiste en la materia',
+            text: `Te eximiste en la materia con ${suma}`,
             icon: 'success',
             confirmButtonText: 'ok'
         });
     } else if (suma >= 51) {
-        mensaje.textContent=`Felicidades Entraste a 1ra mesa con ${Math.round(suma)} puntos`;
+        mensaje.textContent = `Felicidades Entraste a 1ra mesa con ${Math.round(suma)} puntos`;
         alert.classList.remove('d-none');
         alert.appendChild(mensaje);
     } else if (suma >= 40) {
-        mensaje.textContent=`Entraste a 2da mesa con ${Math.round(suma)} puntos`;
+        mensaje.textContent = `Entraste a 2da mesa con ${Math.round(suma)} puntos`;
         alert.classList.remove('d-none');
         alert.classList.remove('alert-primary');
         alert.classList.add('alert-warning');
         alert.appendChild(mensaje);
     } else if (suma <= 39) {
-        mensaje.textContent=`Has Reprobado la materia con ${Math.round(suma)} puntos`;
+        mensaje.textContent = `Has Reprobado la materia con ${Math.round(suma)} puntos`;
         alert.classList.remove('d-none');
         alert.classList.remove('alert-primary');
         alert.classList.add('alert-danger');
