@@ -8,7 +8,18 @@ const nota_final = document.querySelector('#nota-final');
 
 
 por_mesa.addEventListener('keyup', (event) => {
-    const valor = Number(event.target.value);
+    let valor = Number(event.target.value);
+    if (valor > 100) {
+        event.target.value = 100;
+        valor=100;
+        por_ec.value = 100 - valor;
+        console.log('se ejecuto todo');
+    }
+    if (valor < 0) {
+        event.target.value = 0;
+        valor=0;
+        por_ec.value = 100 - valor;
+    }
     por_ec.value = 100 - valor;
 
     let n_mesa = (Number(nota_final.value) - ((Number(nota_ec.value) * Number(por_ec.value)) / 100)) / (valor / 100);
@@ -31,7 +42,7 @@ nota_final.addEventListener('keyup', (event) => {
 nota_ec.addEventListener('keyup', (event) => {
     let notaEc = event.target.value;
     let n_mesa = (Number(nota_final.value) - ((Number(notaEc) * Number(por_ec.value)) / 100)) / (Number(por_mesa.value) / 100);
-    nota_mesa.value=n_mesa.toFixed(2);
+    nota_mesa.value = n_mesa.toFixed(2);
     if (Number(n_mesa) < 0) {
         nota_mesa.value = 0
     }
